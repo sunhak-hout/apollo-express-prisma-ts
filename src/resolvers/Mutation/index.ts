@@ -1,1 +1,3 @@
-export * from './hello';
+export * from './createProduct';
+export * from './deleteProduct';
+
