@@ -1,7 +1,43 @@
 type Query {
-  hi: String
+  productList(limit: Int, offset: Int): [Product!]!
+  shopList(limit: Int, offset: Int): [Shop!]!
 }
 
 type Mutation {
-  hello: String
+  createProduct(input: CreateProductInput!): Product!
+  deleteProduct(id: Int!): Product!
+}
+
+type Shop {
+  id: Int!
+  name: String!
+  address: String
+  products: [Product!]!
+}
+
+type Product {
+  id: Int!
+  name: String!
+  price: Float!
+  discount: Float
+  description: String
+  categories: [Category!]!
+  shop: Shop!
+}
+
+type Category {
+  id: Int!
+  name: String!
+  description: String
+  products: [Product!]!
+}
+
+input CreateProductInput {
+  "Must be at least 5 characters and maximum 40 characters"
+  name: String!
+  price: Float!
+  description: String
+  discount: Float
+  shopId: Int!
+  categoryIds: [Int!]!
 }
