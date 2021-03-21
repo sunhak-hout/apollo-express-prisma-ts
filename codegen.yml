@@ -1,0 +1,10 @@
+generates:
+  ./src/generated/types.d.ts:
+    schema: ./src/schema.graphql
+    plugins:
+      - typescript
+      - typescript-resolvers
+    config:
+      contextType: ../context#Context
+      enumsAsTypes: true
+      defaultMapper: Partial<{T}>

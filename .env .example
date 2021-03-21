@@ -1,0 +1,6 @@
+PORT=3000
+NODE_ENV="development"
+
+DATABASE_URL="mysql://username:password@hostname:port/db-name"
+
+JWT_SECRET_KEY = "JWT_SECRET_KEY"

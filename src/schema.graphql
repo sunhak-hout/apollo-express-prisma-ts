@@ -1,0 +1,36 @@
+scalar DateTime
+
+type Query {
+  ping: Ping!
+  me: User!
+}
+
+type Ping {
+  fieldA: String!
+  fieldB: String!
+  fieldC: String!
+}
+
+type Mutation {
+  login(input: LoginInput): String!
+  register(input: RegisterInput): User!
+}
+
+type User {
+  id: Int!
+  uid: String!
+  email: String!
+  password: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+}
