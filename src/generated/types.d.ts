@@ -18,23 +18,40 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  categoryPagination: CategoryPagination;
   ping: Ping;
   me: User;
 };
 
 export type Ping = {
   __typename?: 'Ping';
-  /** Only [ADMIN, SUPER_ADMIN] can access */
   fieldA: Scalars['String'];
-  /** @deprecated Field no longer supported */
   fieldB: Scalars['String'];
   fieldC: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  categoryCreate: Category;
+  categoryUpdate: Category;
+  categoryDelete: Category;
   login: Scalars['String'];
   register: User;
+};
+
+
+export type MutationCategoryCreateArgs = {
+  input: CategoryCreateInput;
+};
+
+
+export type MutationCategoryUpdateArgs = {
+  input: CategoryUpdateInput;
+};
+
+
+export type MutationCategoryDeleteArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -47,6 +64,25 @@ export type MutationRegisterArgs = {
   input?: Maybe<RegisterInput>;
 };
 
+export type CategoryPagination = {
+  __typename?: 'CategoryPagination';
+  items: Array<Category>;
+  count: Scalars['Int'];
+};
+
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['Int'];
+  uid: Scalars['String'];
+  slug: Scalars['String'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  parent?: Maybe<Category>;
+  children: Array<Category>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['Int'];
@@ -55,6 +91,19 @@ export type User = {
   password: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
+};
+
+export type CategoryCreateInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['Int']>;
+};
+
+export type CategoryUpdateInput = {
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['Int']>;
 };
 
 export type LoginInput = {
@@ -150,8 +199,12 @@ export type ResolversTypes = {
   Ping: ResolverTypeWrapper<Partial<Ping>>;
   String: ResolverTypeWrapper<Partial<Scalars['String']>>;
   Mutation: ResolverTypeWrapper<{}>;
-  User: ResolverTypeWrapper<Partial<User>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']>>;
+  CategoryPagination: ResolverTypeWrapper<Partial<CategoryPagination>>;
+  Category: ResolverTypeWrapper<Partial<Category>>;
+  User: ResolverTypeWrapper<Partial<User>>;
+  CategoryCreateInput: ResolverTypeWrapper<Partial<CategoryCreateInput>>;
+  CategoryUpdateInput: ResolverTypeWrapper<Partial<CategoryUpdateInput>>;
   LoginInput: ResolverTypeWrapper<Partial<LoginInput>>;
   RegisterInput: ResolverTypeWrapper<Partial<RegisterInput>>;
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']>>;
@@ -164,8 +217,12 @@ export type ResolversParentTypes = {
   Ping: Partial<Ping>;
   String: Partial<Scalars['String']>;
   Mutation: {};
-  User: Partial<User>;
   Int: Partial<Scalars['Int']>;
+  CategoryPagination: Partial<CategoryPagination>;
+  Category: Partial<Category>;
+  User: Partial<User>;
+  CategoryCreateInput: Partial<CategoryCreateInput>;
+  CategoryUpdateInput: Partial<CategoryUpdateInput>;
   LoginInput: Partial<LoginInput>;
   RegisterInput: Partial<RegisterInput>;
   Boolean: Partial<Scalars['Boolean']>;
@@ -176,6 +233,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  categoryPagination?: Resolver<ResolversTypes['CategoryPagination'], ParentType, ContextType>;
   ping?: Resolver<ResolversTypes['Ping'], ParentType, ContextType>;
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 };
@@ -188,8 +246,30 @@ export type PingResolvers<ContextType = Context, ParentType extends ResolversPar
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  categoryCreate?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCategoryCreateArgs, 'input'>>;
+  categoryUpdate?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCategoryUpdateArgs, 'input'>>;
+  categoryDelete?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCategoryDeleteArgs, 'id'>>;
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationLoginArgs, never>>;
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, never>>;
+};
+
+export type CategoryPaginationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CategoryPagination'] = ResolversParentTypes['CategoryPagination']> = {
+  items?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType>;
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CategoryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  parent?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
+  children?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -207,6 +287,8 @@ export type Resolvers<ContextType = Context> = {
   Query?: QueryResolvers<ContextType>;
   Ping?: PingResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  CategoryPagination?: CategoryPaginationResolvers<ContextType>;
+  Category?: CategoryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

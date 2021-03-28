@@ -1,6 +1,7 @@
 scalar DateTime
 
 type Query {
+  categoryPagination: CategoryPagination!
   ping: Ping!
   me: User!
 }
@@ -12,8 +13,28 @@ type Ping {
 }
 
 type Mutation {
+  categoryCreate(input: CategoryCreateInput!): Category!
+  categoryUpdate(input: CategoryUpdateInput!): Category!
+  categoryDelete(id: Int!): Category!
   login(input: LoginInput): String!
   register(input: RegisterInput): User!
+}
+
+type CategoryPagination {
+  items: [Category!]!
+  count: Int!
+}
+
+type Category {
+  id: Int!
+  uid: String!
+  slug: String!
+  name: String!
+  description: String
+  parent: Category
+  children: [Category!]!
+  createdAt: String!
+  updatedAt: DateTime!
 }
 
 type User {
@@ -23,6 +44,19 @@ type User {
   password: String!
   updatedAt: DateTime!
   createdAt: DateTime!
+}
+
+input CategoryCreateInput {
+  name: String!
+  description: String
+  parentId: Int
+}
+
+input CategoryUpdateInput {
+  id: Int!
+  name: String
+  description: String
+  parentId: Int
 }
 
 input LoginInput {
